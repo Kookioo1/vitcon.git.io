@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Chúc mừng 20/10</title>
+  <style>
+    @font-face {
+      font-family: 'UTM Kona KT';
+      src: url('UTM-Kona-KT.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .stage {
+      text-align: center;
+      width: 100%;
+      color: #fff;
+      font-family: 'UTM Kona KT', sans-serif;
+    }
+
+    .line {
+      display: inline-block;
+      font-size: clamp(28px, 9vw, 120px);
+      opacity: 0;
+      transform: scale(0.9);
+      text-shadow:
+        0 0 10px #fff,
+        0 0 20px #fff,
+        0 0 40px #fff,
+        0 0 80px #fff;
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .line.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .line.hide {
+      opacity: 0;
+      transform: scale(1.1);
+    }
+
+    .final {
+      text-shadow:
+        0 0 15px #fff,
+        0 0 30px #fff,
+        0 0 60px #fff,
+        0 0 100px #fff;
+    }
+
+    @keyframes glow {
+      0% { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 40px #fff; }
+      50% { text-shadow: 0 0 20px #fff, 0 0 40px #fff, 0 0 80px #fff; }
+      100% { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 40px #fff; }
+    }
+
+    .glow {
+      animation: glow 2s ease-in-out infinite;
+    }
+
+    video, audio {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Video hoặc nhạc nền tự động phát -->
+<!-- Video nền (phát không tiếng khi load, có tiếng sau khi click) -->
+<video id="bgvideo" autoplay loop muted playsinline>
+  <source src="background.mp4" type="video/mp4">
+</video>
+<script>
+  document.addEventListener("click", () => {
+    const video = document.getElementById("bgvideo");
+    video.muted = false;
+    video.play();
+  }, { once: true });
+</script>
+
+
+  <div class="stage">
+    <div id="line" class="line"></div>
+  </div>
+
+  <script>
+    const messages = [
+      'Chúc vịt 20 / 10 vui vẻ 🥰',
+      'Chúc vịt luôn xinh đẹp và khỏe mạnh 👩🏼‍🤝‍🧑🏻',
+      'Chúc vịt ăn mau chống lớn 💪',
+      'Chúc vịt ngày càng học giỏi 👀',
+      'Chúc vịt có người  người yêu😏',
+      'Chúc vịt 20/10 vui vẻ nhoa 💖'
+    ];
+
+    const lineEl = document.getElementById('line');
+    let idx = 0;
+
+    const showDuration = 2000;
+    const fadeDuration = 800;
+
+    function showNext() {
+      const text = messages[idx] || '';
+      lineEl.textContent = text;
+
+      if (idx === messages.length - 1) {
+        lineEl.classList.add('final', 'glow');
+      } else {
+        lineEl.classList.remove('final', 'glow');
+      }
+
+      lineEl.classList.remove('hide');
+      void lineEl.offsetWidth;
+      lineEl.classList.add('show');
+
+      setTimeout(() => {
+        lineEl.classList.remove('show');
+        lineEl.classList.add('hide');
+
+        setTimeout(() => {
+          idx++;
+          if (idx < messages.length) {
+            showNext();
+          } else {
+            idx = messages.length - 1;
+            lineEl.classList.remove('hide');
+            lineEl.classList.add('show');
+          }
+        }, fadeDuration);
+      }, showDuration);
+    }
+
+    setTimeout(showNext, 300);
+  </script>
+</body>
+</html>
